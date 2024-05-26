@@ -52,12 +52,12 @@ public class Trie {
     return (currentNode != null && currentNode.isEndOfWord);
   }
 
-  static TrieNode remove(TrieNode root, String key, int i) {
+  static TrieNode remove(TrieNode root, String key, int depth) {
 
     if (root == null)
       return null;
 
-    if (i == key.length()) {
+    if (depth == key.length()) {
 
       if (root.isEndOfWord)
         root.isEndOfWord = false;
@@ -70,9 +70,8 @@ public class Trie {
       return root;
     }
 
-    int index = key.charAt(i) - 'a';
-    root.children[index] =
-      remove(root.children[index], key, i + 1);
+    int index = key.charAt(depth) - 'a'; // s - 'a' // 'a' - 'a' // 'w' - a 
+    root.children[index] =   remove(root.children[index], key, depth + 1);
 
     if (isEmpty(root) && root.isEndOfWord == false) {
       root = null;
