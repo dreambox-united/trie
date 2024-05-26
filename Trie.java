@@ -64,11 +64,55 @@ public class Trie {
 	} 
 	
 	 
+	static TrieNode remove(TrieNode root,String key, int i) 
+    { 
+        
+        
+        if (root == null) 
+            return null; 
+      
+        
+        if (i == key.length()) { 
+      
+            
+            if (root.isEndOfWord) 
+                root.isEndOfWord = false; 
+      
+            
+            if (isEmpty(root)) { 
+               
+                root = null; 
+            } 
+      
+            return root;
+        } 
+      
+        
+        int index = key.charAt(i) - 'a'; 
+        root.children[index] =  
+        remove(root.children[index], key, i + 1); 
+      
+        
+        if (isEmpty(root) && root.isEndOfWord == false) { 
+            root = null; 
+        } 
+      
+        return root; 
+    } 
+     
+    static boolean isEmpty(TrieNode root) 
+    { 
+        for (int i = 0; i < ALPHABET_SIZE; i++) 
+            if (root.children[i] != null) 
+                return false; 
+        return true; 
+        
+    } 
+    
 	public static void main(String args[]) 
 	{ 
 		
-		String keys[] = {"bad", "bat", "geeks", "geeks", "cat", 
-						"cut"}; 
+		String keys[] = {"an", "and", "ant", "bad", "bat", "zoo"}; 
 	
 		String output[] = {"NO", "YES"}; 
 	
@@ -81,15 +125,14 @@ public class Trie {
 			insert(keys[i]); 
 	
 		
-		if(search("bad") == true) 
-			System.out.println("bad --- " + output[1]); 
-		else System.out.println("bad --- " + output[0]); 
+		root = remove(root, "zoo", 0);
 		
- 
-		if(search("ca") == true) 
-			System.out.println("ca --- " + output[1]); 
-		else System.out.println("ca --- " + output[0]); 
 		
+		if(search("zoo") == true) 
+			System.out.println("zoo --- " + output[1]); 
+		else System.out.println("zoo --- " + output[0]); 
+		
+	
 		
 	} 
 }
